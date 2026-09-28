@@ -3,318 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnBlocksi Dashboard</title>
+    <title>Unblocksi</title>
     <style>
-        /* Modern, Clean Dashboard Styling */
+        :root {
+            /* Space Command Bridge Palette */
+            --bg-color: #030914;
+            --card-bg: rgba(6, 20, 40, 0.75);
+            --accent-color: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.4);
+            --text-color: #ffffff;
+            --text-secondary: #8ab4f8;
+            --border-glow: #00f0ff;
+            --panel-trim: #102a45;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            
+            /* Animated Starfield Background */
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: warpStars 90s linear infinite;
+        }
+
+        /* Star movement effect */
+        @keyframes warpStars {
+            from { background-position: 0 0, 40px 60px, 130px 270px; }
+            to { background-position: 550px 1100px, 350px 700px, 250px 500px; }
+        }
+
+        /* Spaceship Bridge Top Navigation Panel */
+        nav {
+            background: linear-gradient(180deg, #040d1a 0%, var(--card-bg) 100%);
+            padding: 15px 30px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            border-bottom: 2px solid var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
+            position: relative;
+            backdrop-filter: blur(10px);
         }
 
-        h1 {
-            color: #4CAF50;
-            margin-bottom: 5px;
+        /* Futuristic hull wing accent line */
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 5%;
+            width: 90%;
+            height: 6px;
+            background: var(--accent-color);
+            clip-path: polygon(0 0, 1% 100%, 99% 100%, 100% 0);
+            opacity: 0.6;
         }
 
-        .subtitle {
-            color: #888;
-            margin-bottom: 25px;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--border-glow), 0 0 20px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Search Bar Styling */
+        .logo::before {
+            content: '▲';
+            color: var(--accent-color);
+            font-size: 14px;
+            animation: systemBlink 2s infinite ease-in-out;
+        }
+
+        @keyframes systemBlink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Sci-Fi Tactical Search Box Container */
         .search-container {
-            width: 100%;
-            max-width: 500px;
-            margin-bottom: 30px;
+            position: relative;
+            width: 280px;
         }
 
-        #gameSearchBar {
+        .search-input {
             width: 100%;
-            padding: 14px 20px;
-            font-size: 16px;
-            border: 2px solid #333;
-            border-radius: 50px;
-            background-color: #1e1e1e;
-            color: #fff;
-            outline: none;
-            transition: border-color 0.3s ease;
+            background: rgba(3, 9, 20, 0.6);
+            border: 1px solid var(--panel-trim);
+            border-radius: 4px;
+            padding: 10px 15px;
+            color: #ffffff;
+            font-size: 13px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 35%, 100% 100%, 0 100%);
         }
 
-        #gameSearchBar:focus {
-            border-color: #4CAF50;
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+            background: rgba(6, 20, 40, 0.8);
         }
 
-        /* Responsive Grid Styling */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            width: 100%;
+        .search-input::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        /* Main Bridge Deck Container */
+        .container {
             max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
-        /* Individual Game Card Styling */
+        /* Sci-Fi Target Header */
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--accent-glow);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: ' // SYSTEM_READY';
+            font-size: 12px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            font-weight: normal;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        /* Grid Configuration */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* Spaceship Display Console Card Layout */
         .game-card {
-            background-color: #1e1e1e;
-            border-radius: 12px;
-            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--panel-trim);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+        }
+
+        /* Tech corner overlay */
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 16px; height: 16px;
+            background: linear-gradient(225deg, var(--accent-color) 45%, transparent 55%);
+            transition: all 0.3s ease;
+            z-index: 2;
         }
 
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(76, 175, 80, 0.2);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.25);
         }
 
-        .game-icon {
-            font-size: 40px;
-            margin-bottom: 12px;
+        .game-card:hover::before {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(225deg, #ffffff 45%, transparent 55%);
         }
 
-        .game-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            min-height: 44px;
+        /* Emoji/Text Thumbnail Panel Style */
+        .game-thumbnail {
+            width: 100%;
+            height: 140px;
             display: flex;
             align-items: center;
-        }
-
-        .play-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            font-size: 14px;
+            justify-content: center;
+            font-size: 48px;
+            background: rgba(3, 9, 20, 0.4);
+            border-bottom: 2px solid var(--panel-trim);
+            color: #ffffff;
+            letter-spacing: 1.5px;
             font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s ease;
+            transition: background 0.3s ease;
         }
 
-        .play-btn:hover {
-            background-color: #45a049;
+        .game-card:hover .game-thumbnail {
+            background: rgba(0, 210, 255, 0.05);
         }
 
-        /* Message when no games match search query */
-        #noResultsMessage {
-            display: none;
-            color: #ff5252;
+        .game-info {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(6,20,40,0) 0%, rgba(3,9,20,0.8) 100%);
+        }
+
+        .game-name {
             font-size: 18px;
-            margin-top: 40px;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tactical Activation Launcher Button Configuration */
+        .game-status {
+            display: block;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0,210,255,0.05) 0%, rgba(0,210,255,0.15) 100%);
+            color: var(--accent-color);
+            padding: 12px;
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid var(--accent-color);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .game-card:hover .game-status {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #0088ff 100%);
+            color: #030914;
+            box-shadow: 0 0 15px var(--border-glow);
+            padding-left: 22px;
         }
     </style>
 </head>
 <body>
 
-    <h1>UnBlocksi</h1>
-    <div class="subtitle">UnBlocksi Dashboard</div>
-
-    <!-- Live Search Bar Element -->
-    <div class="search-container">
-        <input type="text" id="gameSearchBar" placeholder="Search for a game..." onkeyup="filterGames()">
-    </div>
-
-    <!-- Game Dashboard Container with your full list of games -->
-    <div class="dashboard-grid" id="dashboardGrid">
-        
-        <div class="game-card">
-            <div class="game-icon">🎮</div>
-            <div class="game-title">Fortzone</div>
-            <button class="play-btn">Play Now</button>
+    <!-- Space Flight Deck Navigation Panel -->
+    <nav>
+        <div class="logo">UnBlocksi Dashboard</div>
+        <div class="search-container">
+            <input type="text" id="gameSearch" class="search-input" placeholder="Search targets..." onkeyup="filterGames()">
         </div>
+    </nav>
 
-        <div class="game-card">
-            <div class="game-icon">🦍</div>
-            <div class="game-title">Gorilla tag</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+    <!-- Main Mission Grid Panel -->
+    <div class="container">
+        <h2 class="section-title">Available Operations</h2>
 
-        <div class="game-card">
-            <div class="game-icon">🏎</div>
-            <div class="game-title">Super mario karts 64</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+            <!-- Fortzone Card -->
+            <a href="FZnow.html" class="game-card">
+                <div class="game-thumbnail">🎮</div>
+                <div class="game-info">
+                    <p class="game-name">Fortzone</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🧊</div>
-            <div class="game-title">Paper.io</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+            
+            <a href="GTnow.html" class="game-card">
+                <div class="game-thumbnail">🦍</div>
+                <div class="game-info">
+                    <p class="game-name">Gorilla tag</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🔫</div>
-            <div class="game-title">Gun spin</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+          <a href="clmariokart64.html" class="game-card">
+                <div class="game-thumbnail">🏎</div>
+                <div class="game-info">
+                    <p class="game-name">Super mario karts 64</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">⛏</div>
-            <div class="game-title">Eaglercraft 1.12.2 Astra client</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="clpaperio.html" class="game-card">
+                <div class="game-thumbnail">🧊</div>
+                <div class="game-info">
+                    <p class="game-name">Paper.io</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🍪</div>
-            <div class="game-title">Cookie clicker</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	 </a>
 
-        <div class="game-card">
-            <div class="game-icon">🏢</div>
-            <div class="game-title">Gta 3</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="gunspin.html" class="game-card">
+                <div class="game-thumbnail">🔫</div>
+                <div class="game-info">
+                    <p class="game-name">Gun spin</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
+  
+	<a href="Astra.html" class="game-card">
+                <div class="game-thumbnail">⛏</div>
+                <div class="game-info">
+                    <p class="game-name">Eaglercraft 1.12.2 Astra client</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🧟</div>
-            <div class="game-title">They are coming</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="clcookieclickercool.html" class="game-card">
+                <div class="game-thumbnail">🍪</div>
+                <div class="game-info">
+                    <p class="game-name">Cookie clicker</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🟨</div>
-            <div class="game-title">Geometry dash</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="clgta3.html" class="game-card">
+                <div class="game-thumbnail">🏢</div>
+                <div class="game-info">
+                    <p class="game-name">Gta 3</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🚗</div>
-            <div class="game-title">Polytrack</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="cltheyarecoming.html" class="game-card">
+                <div class="game-thumbnail">🧟</div>
+                <div class="game-info">
+                    <p class="game-name">They are coming</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🛷</div>
-            <div class="game-title">Snowrider</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="clgeometrydashlite.html" class="game-card">
+                <div class="game-thumbnail">🟨</div>
+                <div class="game-info">
+                    <p class="game-name">Geometry dash</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🔟</div>
-            <div class="game-title">Ten bullets</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="clpolytrackworksnow (1).html" class="game-card">
+                <div class="game-thumbnail">🚗</div>
+                <div class="game-info">
+                    <p class="game-name">Polytrack</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🐔</div>
-            <div class="game-title">Crossy road</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="clsnowrider.html" class="game-card">
+                <div class="game-thumbnail">🛷</div>
+                <div class="game-info">
+                    <p class="game-name">Snowrider</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🚃</div>
-            <div class="game-title">Smash karts</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="cl10bullets.html" class="game-card">
+                <div class="game-thumbnail">🔟</div>
+                <div class="game-info">
+                    <p class="game-name">Ten bullets</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">📱</div>
-            <div class="game-title">Minecraft PE edition</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="clcrossyroad.html" class="game-card">
+                <div class="game-thumbnail">🐔</div>
+                <div class="game-info">
+                    <p class="game-name">Crossy road</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🟩</div>
-            <div class="game-title">Minecraft Shooter</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="clsmashkartsworking.html" class="game-card">
+                <div class="game-thumbnail">🚃</div>
+                <div class="game-info">
+                    <p class="game-name">Smash karts</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">⛟</div>
-            <div class="game-title">Cluster Truck</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="MinecraftPE.html" class="game-card">
+                <div class="game-thumbnail">M PE</div>
+                <div class="game-info">
+                    <p class="game-name">Minecraft PE edition</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🠥</div>
-            <div class="game-title">Idle Breakout</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="MCShooter.html" class="game-card">
+                <div class="game-thumbnail">🟩</div>
+                <div class="game-info">
+                    <p class="game-name">Minecraft Shooter</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">👿</div>
-            <div class="game-title">The impossible game</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="ClusterRush.html" class="game-card">
+                <div class="game-thumbnail">⛟</div>
+                <div class="game-info">
+                    <p class="game-name">Cluster Truck</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">👿</div>
-            <div class="game-title">One level</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+	<a href="IdleBO.html" class="game-card">
+                <div class="game-thumbnail">🠥</div>
+                <div class="game-info">
+                    <p class="game-name">Idle Breakout</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
+<a href="TheIG.html" class="game-card">
+                <div class="game-thumbnail">👿</div>
+                <div class="game-info">
+                    <p class="game-name">The impossible game</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🏈</div>
-            <div class="game-title">Retro Bowl</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="TheOnlyLevel.html" class="game-card">
+                <div class="game-thumbnail">👿</div>
+                <div class="game-info">
+                    <p class="game-name">One level</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">💀</div>
-            <div class="game-title">DeltaRune</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="RetroBawl.html" class="game-card">
+                <div class="game-thumbnail">🏈</div>
+                <div class="game-info">
+                    <p class="game-name">Retro Bawl</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🪩</div>
-            <div class="game-title">Slope 3</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="DeltaRune.html" class="game-card">
+                <div class="game-thumbnail">💀</div>
+                <div class="game-info">
+                    <p class="game-name">DeltaRune</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-        <div class="game-card">
-            <div class="game-icon">🤖</div>
-            <div class="game-title">Modern Client</div>
-            <button class="play-btn">Play Now</button>
-        </div>
+<a href="Slope3.html" class="game-card">
+                <div class="game-thumbnail">🪩</div>
+                <div class="game-info">
+                    <p class="game-name">Slope 3</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
 
-    </div>
+<a href="Modernv2.html" class="game-card">
+                <div class="game-thumbnail">Modern Client</div>
+                <div class="game-info">
+                    <p class="game-name">Modern Client</p>
+                    <span class="game-status">Play Now</span>
+                </div>
 
-    <div id="noResultsMessage">No games found matching your search.</div>
-
-    <!-- Search Filtering Logic Script -->
-    <script>
-        function filterGames() {
-            const input = document.getElementById('gameSearchBar');
-            const filter = input.value.toLowerCase();
-            const grid = document.getElementById('dashboardGrid');
-            const cards = grid.getElementsByClassName('game-card');
-            const noResults = document.getElementById('noResultsMessage');
-            let visibleCount = 0;
-
-            // Loop through all game cards to match the user's input
-            for (let i = 0; i < cards.length; i++) {
-                const titleElement = cards[i].getElementsByClassName('game-title')[0];
-                const textValue = titleElement.textContent || titleElement.innerText;
-
-                if (textValue.toLowerCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "";
-                    visibleCount++;
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-
-            // If zero games match, display the fallback error message
-            if (visibleCount === 0) {
-                noResults.style.display = "block";
-            } else {
-                noResults.style.display = "none";
-            }
-        }
-    </script>
-</body>
-</html>
+			</a>
