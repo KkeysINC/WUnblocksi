@@ -3,38 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnBlocksi Games Launcher</title>
+    <title>UnBlocksi Space Command Launcher</title>
     <style>
         :root {
-            --bg-color: #121214;
-            --card-bg: #1a1a1e;
-            --accent-color: #7289da;
-            --text-color: #ffffff;
-            --text-secondary: #aaaaaa;
+            --bg-color: #030814;
+            --card-bg: rgba(6, 18, 38, 0.7);
+            --accent-glow: #00d2ff;
+            --accent-bright: #ffffff;
+            --text-color: #e2f1ff;
+            --text-secondary: #7fa4c7;
+            --panel-border: 1px solid rgba(0, 210, 255, 0.3);
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+                linear-gradient(180deg, #020612 0%, #05132d 100%);
+            background-size: 550px 550px, 350px 350px, 250px 250px, 100% 100%;
+            background-position: 0 0, 40px 60px, 130px 270px, 0 0;
             color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* Navigation Bar */
+        /* Spaceship HUD Navigation Bar */
         nav {
-            background-color: var(--card-bg);
-            padding: 15px 30px;
+            background: linear-gradient(180deg, rgba(6, 22, 48, 0.9) 0%, rgba(3, 10, 24, 0.7) 100%);
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #2a2a30;
+            border-bottom: 2px solid var(--accent-glow);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        nav::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 5%;
+            width: 90%;
+            height: 1px;
+            background: var(--accent-bright);
+            opacity: 0.5;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--accent-color);
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--accent-bright);
+            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent-glow);
+            font-weight: 300;
         }
 
         .nav-tabs {
@@ -42,326 +75,259 @@
             display: flex;
             margin: 0;
             padding: 0;
+            gap: 10px;
         }
 
         .nav-tabs li a {
-            color: var(--text-color);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 10px 20px;
+            padding: 10px 24px;
             font-weight: 600;
-            border-bottom: 3px solid transparent;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
             transition: all 0.3s ease;
         }
 
         .nav-tabs li a.active, .nav-tabs li a:hover {
-            border-bottom: 3px solid var(--accent-color);
-            color: var(--accent-color);
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--accent-glow);
+            color: var(--accent-bright);
+            text-shadow: 0 0 8px var(--accent-glow);
+            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.2);
         }
 
-        /* Main Content Container */
+        /* Cockpit Main Container */
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 40px auto;
-            padding: 0 20px;
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 30px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sector Header */
+        .main-deck {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
         }
 
         .section-title {
-            font-size: 28px;
-            margin-bottom: 20px;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-bright);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* Games Grid */
-        .games-grid {
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 24px;
+            background: var(--accent-glow);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .system-status {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #00ffaa;
+            text-transform: uppercase;
+            background: rgba(0, 255, 170, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 170, 0.3);
+            animation: pulse 2s infinite alternate;
+        }
+
+        /* Futuristic Game Grid */
+        .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
         }
 
-        /* Game Card */
+        /* Spaceship Bay / Game Card */
         .game-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
+            background: var(--card-bg);
+            border: var(--panel-border);
+            border-radius: 0px;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none;
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
+            backdrop-filter: blur(5px);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
 
         .game-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(114, 137, 218, 0.2);
+            border-color: var(--accent-bright);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
         }
 
-        /* Placeholder for Game Thumbnail */
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
         .game-thumbnail {
-            height: 140px;
-            background: linear-gradient(135deg, #2c2f33, #23272a);
+            height: 160px;
+            background: #091a36;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+            overflow: hidden;
+        }
+
+        /* Placeholder crosshairs for sci-fi look */
+        .game-thumbnail::after {
+            content: '+';
+            font-size: 24px;
+            color: rgba(0, 210, 255, 0.2);
+            font-weight: 300;
         }
 
         .game-info {
-            padding: 15px;
-            text-align: center;
+            padding: 20px;
         }
 
-        .game-name {
+        .game-title {
+            margin: 0 0 8px 0;
             font-size: 18px;
-            font-weight: bold;
-            margin: 0 0 5px 0;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--accent-bright);
         }
 
-        .game-status {
+        .game-meta {
             font-size: 12px;
             color: var(--text-secondary);
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Sci-fi Launch Button */
+        .btn-launch {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--accent-glow);
+            color: var(--accent-glow);
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.1);
+            transition: all 0.3s ease;
+            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+        }
+
+        .game-card:hover .btn-launch {
+            background: var(--accent-glow);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            font-weight: 800;
+        }
+
+        /* Side Telemetry Panel */
+        .side-panel {
+            background: rgba(4, 14, 31, 0.8);
+            border: var(--panel-border);
+            padding: 25px;
+            backdrop-filter: blur(5px);
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-glow);
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .telemetry-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .telemetry-label {
+            color: var(--text-secondary);
+        }
+
+        .telemetry-value {
+            color: var(--accent-bright);
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Navigation -->
+    <!-- Spaceship HUD Navigation Bar -->
     <nav>
-        <div class="logo">UnBlocksi Launcher</div>
+        <div class="logo">UnBlocksi <span>// Core OS</span></div>
         <ul class="nav-tabs">
-            <li><a href="#" class="active">Games</a></li>
+            <li><a href="#" class="active">Library</a></li>
+            <li><a href="#">Hyperdrive</a></li>
+            <li><a href="#">Comms</a></li>
+            <li><a href="#">System</a></li>
         </ul>
     </nav>
 
-    <!-- Main Content -->
+    <!-- Cockpit Main Container -->
     <div class="container">
-        <h2 class="section-title">All Games</h2>
         
-        <div class="games-grid">
-
-	<a href="fun.html" class="game-card">
-                <div class="game-thumbnail">🎲</div>
-                <div class="game-info">
-                    <p class="game-name">Random file</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-            
-            <!-- Fortzone Card -->
-            <a href="FZnow.html" class="game-card">
-                <div class="game-thumbnail">🎮</div>
-                <div class="game-info">
-                    <p class="game-name">Fortzone</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-            
-            <a href="GTnow.html" class="game-card">
-                <div class="game-thumbnail">🦍</div>
-                <div class="game-info">
-                    <p class="game-name">Gorilla tag</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-          <a href="clmariokart64.html" class="game-card">
-                <div class="game-thumbnail">🏎</div>
-                <div class="game-info">
-                    <p class="game-name">Super mario karts 64</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="clpaperio.html" class="game-card">
-                <div class="game-thumbnail">🧊</div>
-                <div class="game-info">
-                    <p class="game-name">Paper.io</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	 </a>
-
-<a href="gunspin.html" class="game-card">
-                <div class="game-thumbnail">🔫</div>
-                <div class="game-info">
-                    <p class="game-name">Gun spin</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-  
-	<a href="Astra.html" class="game-card">
-                <div class="game-thumbnail">⛏</div>
-                <div class="game-info">
-                    <p class="game-name">Eaglercraft 1.12.2 Astra client</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="clcookieclickercool.html" class="game-card">
-                <div class="game-thumbnail">🍪</div>
-                <div class="game-info">
-                    <p class="game-name">Cookie clicker</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="clgta3.html" class="game-card">
-                <div class="game-thumbnail">🏢</div>
-                <div class="game-info">
-                    <p class="game-name">Gta 3</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="cltheyarecoming.html" class="game-card">
-                <div class="game-thumbnail">🧟</div>
-                <div class="game-info">
-                    <p class="game-name">They are coming</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="clgeometrydashlite.html" class="game-card">
-                <div class="game-thumbnail">🟨</div>
-                <div class="game-info">
-                    <p class="game-name">Geometry dash</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="clpolytrackworksnow (1).html" class="game-card">
-                <div class="game-thumbnail">🚗</div>
-                <div class="game-info">
-                    <p class="game-name">Polytrack</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="clsnowrider.html" class="game-card">
-                <div class="game-thumbnail">🛷</div>
-                <div class="game-info">
-                    <p class="game-name">Snowrider</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="cl10bullets.html" class="game-card">
-                <div class="game-thumbnail">🔟</div>
-                <div class="game-info">
-                    <p class="game-name">Ten bullets</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="clcrossyroad.html" class="game-card">
-                <div class="game-thumbnail">🐔</div>
-                <div class="game-info">
-                    <p class="game-name">Crossy road</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="clsmashkartsworking.html" class="game-card">
-                <div class="game-thumbnail">🚃</div>
-                <div class="game-info">
-                    <p class="game-name">Smash karts</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="MinecraftPE.html" class="game-card">
-                <div class="game-thumbnail">M PE</div>
-                <div class="game-info">
-                    <p class="game-name">Minecraft PE edition</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="MCShooter.html" class="game-card">
-                <div class="game-thumbnail">🟩</div>
-                <div class="game-info">
-                    <p class="game-name">Minecraft Shooter</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="ClusterRush.html" class="game-card">
-                <div class="game-thumbnail">⛟</div>
-                <div class="game-info">
-                    <p class="game-name">Cluster Truck</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-	<a href="IdleBO.html" class="game-card">
-                <div class="game-thumbnail">🠥</div>
-                <div class="game-info">
-                    <p class="game-name">Idle Breakout</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-<a href="TheIG.html" class="game-card">
-                <div class="game-thumbnail">👿</div>
-                <div class="game-info">
-                    <p class="game-name">The impossible game</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="TheOnlyLevel.html" class="game-card">
-                <div class="game-thumbnail">👿</div>
-                <div class="game-info">
-                    <p class="game-name">One level</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="RetroBawl.html" class="game-card">
-                <div class="game-thumbnail">🏈</div>
-                <div class="game-info">
-                    <p class="game-name">Retro Bawl</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="DeltaRune.html" class="game-card">
-                <div class="game-thumbnail">💀</div>
-                <div class="game-info">
-                    <p class="game-name">DeltaRune</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="Slope3.html" class="game-card">
-                <div class="game-thumbnail">🪩</div>
-                <div class="game-info">
-                    <p class="game-name">Slope 3</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-<a href="Modernv2.html" class="game-card">
-                <div class="game-thumbnail">Modern Client</div>
-                <div class="game-info">
-                    <p class="game-name">Modern Client</p>
-                    <span class="game-status">Play Now</span>
-                </div>
-            </a>
-
-
-
-<!-- You can copy/paste this block below to add more games later -->
-
-        </div>
-    </div>
-
-</body>
-</html>
-
-
+        <!-- Main Game Deck -->
