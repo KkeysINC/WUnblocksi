@@ -263,10 +263,36 @@
 
     <!-- Space Flight Deck Navigation Panel -->
     <nav>
-        <div class="logo">UnBlocksi Dashboard</div>
-        <div class="search-container">
-            <input type="text" id="gameSearch" class="search-input" placeholder="Search targets..." onkeyup="filterGames()">
-        </div>
+        <!-- 1. The Search Input Bar Field -->
+<div class="search-container" style="margin: 20px 0; text-align: center;">
+    <input type="text" id="gameSearchBar" placeholder="Search for a game..." onkeyup="filterGames()" style="padding: 10px; width: 80%; max-width: 400px; border-radius: 5px; border: 1px solid #ccc; font-size: 16px;">
+</div>
+
+<!-- 2. Optimized JavaScript Filtering Logic -->
+<script>
+function filterGames() {
+    // Get the user's typed search query and convert it to lowercase
+    const input = document.getElementById('gameSearchBar');
+    const filter = input.value.toLowerCase();
+    
+    // Target the game dashboard container 
+    // Note: Change '.dashboard-grid' or 'div' to match your exact CSS game card elements
+    const gameCards = document.querySelectorAll('.game-card, div[style*="display"]'); 
+
+    gameCards.forEach(card => {
+        // Read the text content inside the card (e.g., "Cookie clicker")
+        const gameTitle = card.textContent || card.innerText;
+        
+        // If the game title matches the search query, show it. Otherwise, hide it.
+        if (gameTitle.toLowerCase().includes(filter)) {
+            card.style.display = ""; // Shows the item
+        } else {
+            card.style.display = "none"; // Hides the item
+        }
+    });
+}
+</script>
+
     </nav>
 
     <!-- Main Mission Grid Panel -->
