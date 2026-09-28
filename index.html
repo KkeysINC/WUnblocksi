@@ -3,71 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UnBlocksi Space Command Launcher</title>
+    <title>UnBlocksi Games Launcher</title>
     <style>
         :root {
-            --bg-color: #030814;
-            --card-bg: rgba(6, 18, 38, 0.7);
-            --accent-glow: #00d2ff;
-            --accent-bright: #ffffff;
-            --text-color: #e2f1ff;
-            --text-secondary: #7fa4c7;
-            --panel-border: 1px solid rgba(0, 210, 255, 0.3);
+            /* Space Command Bridge Palette */
+            --bg-color: #030914;
+            --card-bg: rgba(6, 20, 40, 0.75);
+            --accent-color: #00d2ff;
+            --accent-glow: rgba(0, 210, 255, 0.4);
+            --text-color: #ffffff;
+            --text-secondary: #8ab4f8;
+            --border-glow: #00f0ff;
+            --panel-trim: #102a45;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            
+            /* Animated Starfield Background */
             background-image: 
                 radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
                 radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
-                linear-gradient(180deg, #020612 0%, #05132d 100%);
-            background-size: 550px 550px, 350px 350px, 250px 250px, 100% 100%;
-            background-position: 0 0, 40px 60px, 130px 270px, 0 0;
-            color: var(--text-color);
-            min-height: 100vh;
-            overflow-x: hidden;
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            animation: warpStars 90s linear infinite;
         }
 
-        /* Spaceship HUD Navigation Bar */
+        /* Star movement effect */
+        @keyframes warpStars {
+            from { background-position: 0 0, 40px 60px, 130px 270px; }
+            to { background-position: 550px 1100px, 350px 700px, 250px 500px; }
+        }
+
+        /* Spaceship Bridge Top Navigation Panel */
         nav {
-            background: linear-gradient(180deg, rgba(6, 22, 48, 0.9) 0%, rgba(3, 10, 24, 0.7) 100%);
-            padding: 20px 40px;
+            background: linear-gradient(180deg, #040d1a 0%, var(--card-bg) 100%);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent-glow);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
             position: relative;
+            backdrop-filter: blur(10px);
         }
 
+        /* Futuristic hull wing accent line */
         nav::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: -8px;
             left: 5%;
             width: 90%;
-            height: 1px;
-            background: var(--accent-bright);
-            opacity: 0.5;
+            height: 6px;
+            background: var(--accent-color);
+            clip-path: polygon(0 0, 1% 100%, 99% 100%, 100% 0);
+            opacity: 0.6;
         }
 
         .logo {
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: var(--accent-bright);
-            text-shadow: 0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow);
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
             text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--border-glow), 0 0 20px var(--accent-glow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .logo span {
-            color: var(--accent-glow);
-            font-weight: 300;
+        .logo::before {
+            content: '▲';
+            color: var(--accent-color);
+            font-size: 14px;
+            animation: systemBlink 2s infinite ease-in-out;
+        }
+
+        @keyframes systemBlink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
 
         .nav-tabs {
@@ -75,259 +96,198 @@
             display: flex;
             margin: 0;
             padding: 0;
-            gap: 10px;
+            gap: 5px;
         }
 
         .nav-tabs li a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 10px 24px;
+            padding: 10px 20px;
             font-weight: 600;
-            font-size: 13px;
-            letter-spacing: 2px;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 13px;
             border: 1px solid transparent;
             clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
             transition: all 0.3s ease;
         }
 
         .nav-tabs li a.active, .nav-tabs li a:hover {
-            background: rgba(0, 210, 255, 0.1);
-            border: 1px solid var(--accent-glow);
-            color: var(--accent-bright);
-            text-shadow: 0 0 8px var(--accent-glow);
-            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.2);
+            color: #ffffff;
+            background: rgba(0, 210, 255, 0.15);
+            border-left: 2px solid var(--accent-color);
+            border-right: 2px solid var(--accent-color);
+            box-shadow: inset 0 0 15px rgba(0, 210, 255, 0.3);
+            text-shadow: 0 0 8px #ffffff;
         }
 
-        /* Cockpit Main Container */
+        /* Main Bridge Deck Container */
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 40px auto;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 30px;
+            padding: 0 20px;
         }
 
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Sector Header */
-        .main-deck {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 15px;
-        }
-
+        /* Sci-Fi Target Header */
         .section-title {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            text-transform: uppercase;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-bright);
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            text-shadow: 0 0 10px var(--accent-glow);
+            position: relative;
         }
 
-        .section-title::before {
-            content: '';
-            display: inline-block;
-            width: 4px;
-            height: 24px;
-            background: var(--accent-glow);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .system-status {
+        .section-title::after {
+            content: ' // SYSTEM_READY';
             font-size: 12px;
+            color: var(--accent-color);
             letter-spacing: 1px;
-            color: #00ffaa;
-            text-transform: uppercase;
-            background: rgba(0, 255, 170, 0.1);
-            padding: 4px 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(0, 255, 170, 0.3);
-            animation: pulse 2s infinite alternate;
+            font-weight: normal;
+            vertical-align: middle;
+            margin-left: 10px;
         }
 
-        /* Futuristic Game Grid */
-        .game-grid {
+        /* Grid Configuration */
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
-        /* Spaceship Bay / Game Card */
+        /* Spaceship Display Console Card */
         .game-card {
             background: var(--card-bg);
-            border: var(--panel-border);
-            border-radius: 0px;
-            position: relative;
+            border: 1px solid var(--panel-trim);
+            border-radius: 4px;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* Tech corner overlay */
         .game-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 210, 255, 0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            top: 0; right: 0;
+            width: 16px; height: 16px;
+            background: linear-gradient(225deg, var(--accent-color) 45%, transparent 55%);
+            transition: all 0.3s ease;
+            z-index: 2;
         }
 
         .game-card:hover {
             transform: translateY(-5px);
-            border-color: var(--accent-bright);
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.25);
         }
 
         .game-card:hover::before {
-            opacity: 1;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(225deg, #ffffff 45%, transparent 55%);
         }
 
-        .game-thumbnail {
-            height: 160px;
-            background: #091a36;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-            overflow: hidden;
+        .game-thumb {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--panel-trim);
+            transition: filter 0.3s ease;
         }
 
-        /* Placeholder crosshairs for sci-fi look */
-        .game-thumbnail::after {
-            content: '+';
-            font-size: 24px;
-            color: rgba(0, 210, 255, 0.2);
-            font-weight: 300;
+        .game-card:hover .game-thumb {
+            filter: brightness(1.1) contrast(1.05);
         }
 
         .game-info {
             padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(180deg, rgba(6,20,40,0) 0%, rgba(3,9,20,0.8) 100%);
         }
 
         .game-title {
-            margin: 0 0 8px 0;
             font-size: 18px;
             font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--accent-bright);
+            margin: 0 0 10px 0;
+            color: #ffffff;
+            letter-spacing: 0.5px;
         }
 
-        .game-meta {
-            font-size: 12px;
+        .game-desc {
+            font-size: 13px;
             color: var(--text-secondary);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+            flex-grow: 1;
         }
 
-        /* Sci-fi Launch Button */
-        .btn-launch {
+        /* Tactical Activation Launcher Button */
+        .launch-btn {
             display: block;
-            width: 100%;
-            padding: 12px;
-            background: transparent;
-            border: 1px solid var(--accent-glow);
-            color: var(--accent-glow);
             text-align: center;
+            background: linear-gradient(135deg, rgba(0,210,255,0.05) 0%, rgba(0,210,255,0.15) 100%);
+            color: var(--accent-color);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: inset 0 0 10px rgba(0, 210, 255, 0.1);
-            transition: all 0.3s ease;
-            clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-        }
-
-        .game-card:hover .btn-launch {
-            background: var(--accent-glow);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px var(--accent-glow);
-            font-weight: 800;
-        }
-
-        /* Side Telemetry Panel */
-        .side-panel {
-            background: rgba(4, 14, 31, 0.8);
-            border: var(--panel-border);
-            padding: 25px;
-            backdrop-filter: blur(5px);
-            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
-            height: fit-content;
-        }
-
-        .panel-title {
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--accent-glow);
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
-            padding-bottom: 10px;
-        }
-
-        .telemetry-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 13px;
-        }
-
-        .telemetry-label {
-            color: var(--text-secondary);
-        }
-
-        .telemetry-value {
-            color: var(--accent-bright);
-            font-family: monospace;
+            padding: 12px;
             font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid var(--accent-color);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
+            transition: all 0.3s ease;
         }
 
-        /* Animations */
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; box-shadow: 0 0 15px rgba(0, 255, 170, 0.4); }
+        .launch-btn:hover {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #0088ff 100%);
+            color: #030914;
+            box-shadow: 0 0 15px var(--border-glow);
+            padding-left: 22px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Spaceship HUD Navigation Bar -->
+    <!-- Space Flight Deck Navigation Panel -->
     <nav>
-        <div class="logo">UnBlocksi <span>// Core OS</span></div>
+        <div class="logo">UnBlocksi Games</div>
         <ul class="nav-tabs">
-            <li><a href="#" class="active">Library</a></li>
-            <li><a href="#">Hyperdrive</a></li>
-            <li><a href="#">Comms</a></li>
-            <li><a href="#">System</a></li>
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="action.html">Action</a></li>
+            <li><a href="casual.html">Casual</a></li>
+            <li><a href="driving.html">Driving</a></li>
+            <li><a href="sports.html">Sports</a></li>
+            <li><a href="retro.html">Retro</a></li>
         </ul>
     </nav>
 
-    <!-- Cockpit Main Container -->
+    <!-- Main Mission Grid Panel -->
     <div class="container">
+        <h2 class="section-title">Available Operations</h2>
         
-        <!-- Main Game Deck -->
+        <div class="grid-container">
+            <!-- Game Card Module 01 -->
+            <div class="game-card">
+                <img src="https://unsplash.com" alt="Game Matrix" class="game-thumb">
+                <div class="game-info">
+                    <h3 class="game-title">Cyber Strike</h3>
+                    <p class="game-desc">Deploy into hostile territory within this fast-paced neon tactical simulation environment.</p>
+                    <a href="games/cyberstrike/index.html" class="launch-btn">Initialize Core</a>
+                </div>
+            </div>
+
+            <!-- Game Card Module 02 -->
+            <div class="game-card">
+                <img src="https://unsplash.com" alt="Game Matrix" class="game-thumb">
+                <div class="game-info">
+                    <h3 class="game-title">Velocity Drift</h3>
+                    <p class="game-desc">Push aerodynamic starfighter vectors well past normal atmospheric limits.</p>
