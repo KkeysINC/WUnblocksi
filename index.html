@@ -257,6 +257,14 @@
             box-shadow: 0 0 15px var(--border-glow);
             padding-left: 22px;
         }
+		.game-container {
+    display: grid;
+    /* This forces the boxes to stay between 180px and 250px wide instead of stretching */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 250px)); 
+    gap: 15px;            /* Adds spacing between the boxes */
+    justify-content: center; /* Centers the grid on the dashboard */
+}
+
     </style>
 </head>
 <body>
