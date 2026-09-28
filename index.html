@@ -154,13 +154,13 @@
         }
 
         /* Grid Configuration */
-        .grid-container {
+        .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 30px;
         }
 
-        /* Spaceship Display Console Card */
+        /* Spaceship Display Console Card Layout */
         .game-card {
             background: var(--card-bg);
             border: 1px solid var(--panel-trim);
@@ -172,6 +172,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            text-decoration: none;
         }
 
         /* Tech corner overlay */
@@ -197,16 +198,24 @@
             background: linear-gradient(225deg, #ffffff 45%, transparent 55%);
         }
 
-        .game-thumb {
+        /* Emoji/Text Thumbnail Panel Style */
+        .game-thumbnail {
             width: 100%;
-            height: 180px;
-            object-fit: cover;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            background: rgba(3, 9, 20, 0.4);
             border-bottom: 2px solid var(--panel-trim);
-            transition: filter 0.3s ease;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            font-weight: bold;
+            transition: background 0.3s ease;
         }
 
-        .game-card:hover .game-thumb {
-            filter: brightness(1.1) contrast(1.05);
+        .game-card:hover .game-thumbnail {
+            background: rgba(0, 210, 255, 0.05);
         }
 
         .game-info {
@@ -217,29 +226,20 @@
             background: linear-gradient(180deg, rgba(6,20,40,0) 0%, rgba(3,9,20,0.8) 100%);
         }
 
-        .game-title {
+        .game-name {
             font-size: 18px;
             font-weight: 700;
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
             color: #ffffff;
             letter-spacing: 0.5px;
         }
 
-        .game-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin: 0 0 20px 0;
-            line-height: 1.5;
-            flex-grow: 1;
-        }
-
-        /* Tactical Activation Launcher Button */
-        .launch-btn {
+        /* Tactical Activation Launcher Button Configuration */
+        .game-status {
             display: block;
             text-align: center;
             background: linear-gradient(135deg, rgba(0,210,255,0.05) 0%, rgba(0,210,255,0.15) 100%);
             color: var(--accent-color);
-            text-decoration: none;
             padding: 12px;
             font-weight: bold;
             font-size: 12px;
@@ -248,9 +248,10 @@
             border: 1px solid var(--accent-color);
             clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%);
             transition: all 0.3s ease;
+            margin-top: auto;
         }
 
-        .launch-btn:hover {
+        .game-card:hover .game-status {
             background: linear-gradient(135deg, var(--accent-color) 0%, #0088ff 100%);
             color: #030914;
             box-shadow: 0 0 15px var(--border-glow);
@@ -272,28 +273,33 @@
     <div class="container">
         <h2 class="section-title">Available Operations</h2>
         
-        <div class="grid-container" id="gamesGrid">
-            <!-- Game Card Module 01 -->
-            <div class="game-card">
-                <img src="https://unsplash.com" alt="Game Matrix" class="game-thumb">
+        <div class="games-grid" id="gamesGrid">
+            <!-- Random file Card -->
+            <a href="fun.html" class="game-card">
+                <div class="game-thumbnail">🎲</div>
                 <div class="game-info">
-                    <h3 class="game-title">Cyber Strike</h3>
-                    <p class="game-desc">Deploy into hostile territory within this fast-paced neon tactical simulation environment.</p>
-                    <a href="games/cyberstrike/index.html" class="launch-btn">Initialize Core</a>
+                    <p class="game-name">Random file</p>
+                    <span class="game-status">Play Now</span>
                 </div>
-            </div>
+            </a>
 
-            <!-- Game Card Module 02 -->
-            <div class="game-card">
-                <img src="https://unsplash.com" alt="Game Matrix" class="game-thumb">
+            <!-- Fortzone Card -->
+            <a href="FZnow.html" class="game-card">
+                <div class="game-thumbnail">🎮</div>
                 <div class="game-info">
-                    <h3 class="game-title">Velocity Drift</h3>
-                    <p class="game-desc">Push aerodynamic starfighter vectors well past normal atmospheric limits.</p>
-                    <a href="games/velocitydrift/index.html" class="launch-btn">Initialize Core</a>
+                    <p class="game-name">Fortzone</p>
+                    <span class="game-status">Play Now</span>
                 </div>
-            </div>
-        </div>
-    </div>
+            </a>
 
-    <!-- Active Content Filtering Script Engine -->
-    <script>
+            <!-- Gorilla tag Card -->
+            <a href="GTnow.html" class="game-card">
+                <div class="game-thumbnail">🦍</div>
+                <div class="game-info">
+                    <p class="game-name">Gorilla tag</p>
+                    <span class="game-status">Play Now</span>
+                </div>
+            </a>
+
+            <!-- Super mario karts 64 Card -->
+            <a href="clmariokart64.html" class="game-card">
