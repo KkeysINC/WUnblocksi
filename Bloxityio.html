@@ -3,24 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webpage Embed</title>
+    <title>Webpage Viewer</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        iframe {
             width: 100%;
             height: 100%;
-            border: none;
+        }
+        #content-container {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
 
-    <iframe src="https://bloxity.io/"></iframe>
+    <div id="content-container">Loading content...</div>
 
+    <script>
+        const targetUrl = 'https://bloxity.io';
+        // Using a public CORS proxy because browsers block direct cross-domain scraping
+        const proxyUrl = 'https://allorigins.win' + encodeURIComponent(targetUrl);
+
+        async function loadSite() {
+            try {
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                
+                // Create a temporary element to parse the HTML string
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(data.contents, 'text/html');
+
+                // Fix relative paths for links, scripts, and images
+                const rewriteAttributes = ['src', 'href', 'action'];
+                
+                doc.querySelectorAll('[src], [href], [action]').forEach(element => {
+                    rewriteAttributes.forEach(attr => {
+                        if (element.hasAttribute(attr)) {
+                            const value = element.getAttribute(attr);
+                            // If the link is relative, turn it into an absolute URL
+                            if (value && !value.startsWith('http') && !value.startsWith('//') && !value.startsWith('data:')) {
+                                try {
+                                    const absoluteUrl = new URL(value, targetUrl).href;
+                                    element.setAttribute(attr, absoluteUrl);
+                                } catch (e) {
+                                    console.error('Error resolving URL:', e);
+                                }
+                            }
+                        }
+                    });
+                });
+
+                // Inject the modified HTML into the container
+                document.getElementById('content-container').innerHTML = doc.documentElement.innerHTML;
+            } catch (error) {
+                document.getElementById('content-container').innerText = 'Error loading the website: ' + error.message;
+            }
+        }
+
+        loadSite();
+    </script>
 </body>
 </html>
